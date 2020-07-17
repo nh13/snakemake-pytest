@@ -1,0 +1,61 @@
+rule all:
+    input:
+        ['foo.bam', 'foo.bam.bai', 'bar.bam']
+
+
+rule align:
+    input:
+        fasta = 'genome.fasta',
+        fastq1 = '{sample}.reads1.fastq.gz',
+        fastq2 = '{sample}.reads2.fastq.gz'
+    output:
+        sam = temp('{sample}.sam')
+    conda:
+        'environment.yml'
+    log:
+        'logs/align-{sample}.log'
+    threads: 16
+    resources:
+        mem_gb = 8
+    shell:
+        '''
+        (bwa mem -M -K 10000000 -t {threads} \
+        {input.fasta} {input.fastq1} {input.fastq2} \
+        > {output.sam}) &> {log}
+        '''
+
+rule sam_to_bam:
+    input:
+        sam = '{sample}.sam'
+    output:
+        bam = '{sample}.bam'
+    conda:
+        'environment.yml'
+    log:
+        'logs/sam_to_bam-{sample}.log'
+    threads: 16
+    resources:
+        mem_gb = 8
+    shell:
+        '''
+        (samtools view -@ {threads} -Sbh - \
+        samtools sort -@ {threads} -m 2G -o {output.bam} - \
+        > {output.bam}) &> {log}
+        '''
+
+rule index_bam:
+    input:
+        bam = '{sample}.bam'
+    output:
+        bai = '{sample}.bam.bai'
+    conda:
+        'environment.yml'
+    log:
+        'logs/index_bam-{sample}.log'
+    threads: 16
+    resources:
+        mem_gb = 8
+    shell:
+        '''
+        samtools index {input.bam} &> {log}
+        '''

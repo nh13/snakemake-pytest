@@ -1,0 +1,13 @@
+name: snakemake-pytest
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  # Packages required to run Snakemake
+  - python=3.6.10
+  - snakemake-minimal=5.20.1
+  # Packages required for testing
+  - pytest
+  - flake8
+  - mypy
+  - black
