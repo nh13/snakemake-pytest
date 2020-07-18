@@ -62,5 +62,6 @@ bash ci/check.sh
 [license-link]:         https://github.com/fulcrumgenomics/pyfgaws/blob/master/LICENSE
 [snakefiles-link]:      https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html
 [pytest-link]:          https://docs.pytest.org/en/stable/
-[snakemake-checkpoint]: https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#data-dependent-conditional-execution
+[snakemake-checkpoint]: https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#data-dependent-conditional-execution]
+[snakemake-link]:       https://snakemake.readthedocs.io/en/stable
 [conda-link]:           https://docs.conda.io/projects/conda/en/latest/user-guide/install/
